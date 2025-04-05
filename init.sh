@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Install Homebrew if not already installed
-#!/bin/bash
 
 # Install Homebrew if it's not already installed
 if ! command -v brew; then
@@ -23,7 +22,6 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
-
 programs=("zsh" "btop" "bat" "n")
 
 # Loop to install each program with Homebrew
@@ -33,5 +31,9 @@ for program in "${programs[@]}"; do
 done
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+# in zshrc add
+# plugins=(git zsh-autosuggestions)
 
 echo "All programs have been installed."
