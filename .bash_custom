@@ -1,8 +1,29 @@
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+
 alias pp="pnpm"
 alias ppi="pnpm install"
 alias top="btop"
 alias l='eza --long --git --all'
 alias cat='bat'
+
+alias y='yarn'
+alias ys='yarn start'
+alias yb='yarn build'
+alias ya='yarn add'
+alias yad='yarn add -D'
+
+alias dcu="docker-compose up"
+
+GPG_TTY=$(tty)
+export GPG_TTY
+
+hme() {
+    if [ -n "$1" ]; then
+        glow "$SCRIPT_DIR/cmd-index.md" | grep "$1"
+    else
+        glow "$SCRIPT_DIR/cmd-index.md"
+    fi
+}
 
 kc() {
     if [ "$1" = "rmd" ]; then
@@ -10,4 +31,10 @@ kc() {
     else
         echo "Usage: kc rmd"
     fi
+}
+
+myl() {
+    local prompt="Answer immediately in the same language as my prompt, without any explanation. My Request: $@"
+    #llm -m mlx-community/gemma-3-4b-it-8bit "$prompt" 2>/dev/null
+    llm -m mlx-community/Phi-3-mini-4k-instruct-4bit "$prompt" 2>/dev/null
 }
