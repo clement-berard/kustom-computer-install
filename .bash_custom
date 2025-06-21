@@ -7,10 +7,12 @@ alias l='eza --long --git --all'
 alias cat='bat'
 
 alias y='yarn'
+alias yd='yarn dev'
 alias ys='yarn start'
 alias yb='yarn build'
 alias ya='yarn add'
 alias yad='yarn add -D'
+alias yup='yarn upgrade-interactive --latest'
 
 alias dcu="docker-compose up"
 
