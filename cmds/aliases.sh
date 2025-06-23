@@ -6,6 +6,8 @@ alias cat='bat'
 # pnpm aliases
 alias pp="pnpm"
 alias ppx="pnpx"
+alias ppa="pnpm add"
+alias ppad="pnpm add -D"
 alias ppi="pnpm install"
 alias ppdd="pnpm dedupe"
 alias ppup="pnpm update -Lir"
@@ -21,3 +23,7 @@ alias yup='yarn upgrade-interactive --latest'
 
 # docker
 alias dcu="docker-compose up"
+alias dpa="docker ps -a"
+
+# git aliases
+alias gfp='gf && ggl'
