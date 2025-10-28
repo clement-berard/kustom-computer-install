@@ -1,7 +1,14 @@
 # system
 alias top="btop"
-alias l='eza --long --git --all'
-alias cat='bat'
+
+## eza aliases
+EZA_OPTS=(--long --git --all --group-directories-first)
+alias l='eza "${EZA_OPTS[@]}"'
+fde() {
+    fd "$@" -X eza "${EZA_OPTS[@]}"
+}
+
+#alias cat='bat'
 
 # pnpm aliases
 alias pp="pnpm"
