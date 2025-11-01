@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Install Homebrew if not already installed
+# go assets links
+# https://github.com/clement-berard/kustom-computer-install/releases/latest/download/main_darwin_arm64
 
 # Install Homebrew if it's not already installed
 if ! command -v brew; then
@@ -37,3 +38,25 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 # plugins=(git zsh-autosuggestions)
 
 echo "All programs have been installed."
+
+# Download kc-cli binary
+echo "Downloading main_darwin_arm64 binary..."
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+GO_BIN_DIR="$SCRIPT_DIR/go_bin"
+
+# Create go_bin directory if it doesn't exist
+mkdir -p "$GO_BIN_DIR"
+
+# Download the binary
+curl -L https://github.com/clement-berard/kustom-computer-install/releases/latest/download/main_darwin_arm64 -o "$GO_BIN_DIR/main_darwin_arm64"
+
+if [ $? -ne 0 ]; then
+    echo "Error downloading main_darwin_arm64" >&2
+    return 1
+fi
+
+# Make it executable
+chmod +x "$GO_BIN_DIR/main_darwin_arm64"
+
+echo "main_darwin_arm64 downloaded successfully to $GO_BIN_DIR/main_darwin_arm64"
+echo "To use it, run: $GO_BIN_DIR/main_darwin_arm64"
