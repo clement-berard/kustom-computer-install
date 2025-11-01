@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"kc-cli/src/commands"
+	"kc-cli/src/commands/git"
 
 	"github.com/spf13/cobra"
 )
@@ -17,6 +18,7 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(commands.RmdCmd)
+	rootCmd.AddCommand(git.GitCmd)
 }
 
 func main() {
