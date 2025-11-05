@@ -11,9 +11,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "kc-cli",
-	Short: "A simple CLI for testing",
-	Long:  `A simple CLI created with Cobra to test basic commands.`,
+	Use:   "kc",
+	Short: "Kustom CLI",
+	Long:  `Kustom CLI commands to improve my daily workflow.`,
 }
 
 func init() {
