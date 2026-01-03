@@ -23,7 +23,7 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
-programs=("zsh" "btop" "bat" "n" "glow" "ncdu" "fd" "gum")
+programs=("zsh" "btop" "bat" "n" "glow" "ncdu" "fd" "gum" "witr")
 
 # Loop to install each program with Homebrew
 for program in "${programs[@]}"; do
