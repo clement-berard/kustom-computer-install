@@ -10,26 +10,11 @@ if [ "$#" -gt 0 ]; then
 
   for arg in "$@"; do
     case "$arg" in
-      linux-x64)
-        NAMES+=("linux-x64")
-        TARGETS+=("x86_64-unknown-linux-musl")
-        ;;
-      windows-x64)
-        NAMES+=("windows-x64")
-        TARGETS+=("x86_64-pc-windows-gnu")
-        ;;
-      macos-arm64)
-        NAMES+=("macos-arm64")
-        TARGETS+=("aarch64-apple-darwin")
-        ;;
-      macos-x64)
-        NAMES+=("macos-x64")
-        TARGETS+=("x86_64-apple-darwin")
-        ;;
-      *)
-        echo "Unknown target: $arg"
-        exit 1
-        ;;
+      linux-x64)   NAMES+=("linux-x64");   TARGETS+=("x86_64-unknown-linux-musl") ;;
+      windows-x64) NAMES+=("windows-x64"); TARGETS+=("x86_64-pc-windows-gnu") ;;
+      macos-arm64) NAMES+=("macos-arm64"); TARGETS+=("aarch64-apple-darwin") ;;
+      macos-x64)   NAMES+=("macos-x64");   TARGETS+=("x86_64-apple-darwin") ;;
+      *) echo "Unknown target: $arg"; exit 1 ;;
     esac
   done
 else

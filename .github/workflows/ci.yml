@@ -42,14 +42,6 @@ jobs:
           chmod +x build.sh
           ./build.sh linux-x64 windows-x64
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: binaries-linux-windows
-          path: |
-            go/builds/*
-            rust/dist/*
-
   build-macos:
     runs-on: macos-latest
 
