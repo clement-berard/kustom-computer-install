@@ -1,10 +1,9 @@
-name: Release
+name: Build Test
 
 on:
-  workflow_dispatch:
-
-permissions:
-  contents: write
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-linux-windows:
@@ -43,14 +42,6 @@ jobs:
           chmod +x build.sh
           ./build.sh linux-x64 windows-x64
 
-      - name: Upload artifacts (Linux + Windows)
-        uses: actions/upload-artifact@v4
-        with:
-          name: binaries-linux-windows
-          path: |
-            go/builds/*
-            rust/dist/*
-
   build-macos:
     runs-on: macos-latest
 
@@ -68,41 +59,3 @@ jobs:
         run: |
           chmod +x build.sh
           ./build.sh macos-arm64 macos-x64
-
-      - name: Upload artifacts (macOS)
-        uses: actions/upload-artifact@v4
-        with:
-          name: binaries-macos
-          path: rust/dist/*
-
-  release:
-    runs-on: ubuntu-latest
-    needs: [build-linux-windows, build-macos]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Get version
-        id: version
-        run: |
-          VERSION="v$(date +'%Y.%m.%d')-$(git rev-parse --short HEAD)"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Version: $VERSION"
-
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts/
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.version.outputs.version }}
-          name: Release ${{ steps.version.outputs.version }}
-          draft: false
-          prerelease: false
-          generate_release_notes: true
-          files: artifacts/**/*
