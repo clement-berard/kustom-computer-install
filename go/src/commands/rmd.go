@@ -2,8 +2,9 @@ package commands
 
 import (
 	"fmt"
+	"io/fs"
 	"os"
-	"os/exec"
+	"path/filepath"
 	"time"
 
 	"github.com/charmbracelet/bubbles/spinner"
@@ -17,9 +18,13 @@ type model struct {
 	quitting bool
 	err      error
 	done     bool
+	count    int
 }
 
-type doneMsg struct{ err error }
+type doneMsg struct {
+	err   error
+	count int
+}
 
 func initialModel() model {
 	s := spinner.New()
@@ -40,6 +45,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case doneMsg:
 		m.done = true
 		m.err = msg.err
+		m.count = msg.count
 		return m, tea.Quit
 	default:
 		var cmd tea.Cmd
@@ -49,22 +55,60 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
+    cwd, _ := os.Getwd()
 	if m.done {
 		if m.err != nil {
 			return fmt.Sprintf("❌ Error: %v\n", m.err)
 		}
-		return "✓ All node_modules removed successfully\n"
+		if m.count == 0 {
+			return fmt.Sprintf("%s NO 'node_modules' in %s\n", m.spinner.View(), cwd)
+		}
+		return fmt.Sprintf("✓ Removed %d node_modules director%s successfully\n",
+			m.count, pluralize(m.count))
 	}
 
-	cwd, _ := os.Getwd()
 	return fmt.Sprintf("%s Remove recursively 'node_modules' in %s\n", m.spinner.View(), cwd)
 }
 
+func pluralize(count int) string {
+	if count == 1 {
+		return "y"
+	}
+	return "ies"
+}
+
 func removeNodeModules() tea.Msg {
-	cmd := exec.Command("find", ".", "-name", "node_modules", "-type", "d", "-prune", "-exec", "rm", "-rf", "{}", "+")
-	err := cmd.Run()
+	var toRemove []string
+
+	err := filepath.WalkDir(".", func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			// Skip permission errors but continue walking [web:21][web:24]
+			if os.IsPermission(err) {
+				return nil
+			}
+			return err
+		}
+
+		if d.IsDir() && d.Name() == "node_modules" {
+			toRemove = append(toRemove, path)
+			return filepath.SkipDir // Don't descend into node_modules [web:19]
+		}
+		return nil
+	})
+
+	if err != nil {
+		return doneMsg{err: err, count: 0}
+	}
+
+	// Remove all found directories [web:7]
+	for _, dir := range toRemove {
+		if err := os.RemoveAll(dir); err != nil {
+			return doneMsg{err: fmt.Errorf("failed to remove %s: %w", dir, err), count: len(toRemove)}
+		}
+	}
+
 	time.Sleep(500 * time.Millisecond) // Small delay to see the spinner
-	return doneMsg{err: err}
+	return doneMsg{err: nil, count: len(toRemove)}
 }
 
 var RmdCmd = &cobra.Command{

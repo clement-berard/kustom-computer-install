@@ -1,5 +1,5 @@
 [package]
-name = "hello-rust"
+name = "kc-cli"
 version = "0.1.0"
 edition = "2024"
 
@@ -9,3 +9,4 @@ rayon = "1"
 indicatif = "0.17"
 console = "0.15"
 comfy-table = "7"
+walkdir = "2"

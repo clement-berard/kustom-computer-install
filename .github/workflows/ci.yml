@@ -1,0 +1,53 @@
+name: Build Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      - name: Build Go binaries
+        working-directory: go
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Install cross-compilation tools
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y gcc-mingw-w64-x86-64 musl-tools
+
+      - name: Install Rust targets
+        run: |
+          rustup update stable
+          rustup target add \
+            x86_64-unknown-linux-musl \
+            x86_64-pc-windows-gnu
+
+      - name: Build Rust binaries
+        working-directory: rust
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+#      - name: Upload artifacts
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: binaries-test
+#          path: |
+#            go/builds/*
+#            rust/dist/*
