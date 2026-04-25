@@ -2,10 +2,10 @@
 
 set -e
 
-BINARY_NAME="hello-rust"
+BINARY_NAME="kc-cli"
 
-NAMES=("macos-arm64" "linux-x64" "windows-x64")
-TARGETS=("aarch64-apple-darwin" "x86_64-unknown-linux-musl" "x86_64-pc-windows-gnu")
+NAMES=("linux-x64" "windows-x64" "macos-arm64" "macos-x64")
+TARGETS=("x86_64-unknown-linux-musl" "x86_64-pc-windows-gnu" "aarch64-apple-darwin" "x86_64-apple-darwin")
 
 echo "🔨 Building..."
 for i in "${!NAMES[@]}"; do

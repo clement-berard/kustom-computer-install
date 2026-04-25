@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-linux-windows:
     runs-on: ubuntu-latest
 
     steps:
@@ -38,16 +38,48 @@ jobs:
             x86_64-unknown-linux-musl \
             x86_64-pc-windows-gnu
 
-      - name: Build Rust binaries
+      - name: Build Rust binaries (Linux + Windows)
+        working-directory: rust
+        run: |
+          BINARY_NAME="kc-cli"
+          mkdir -p dist
+
+          cargo build --release --target x86_64-unknown-linux-musl
+          cp target/x86_64-unknown-linux-musl/release/$BINARY_NAME dist/$BINARY_NAME-linux-x64
+
+          cargo build --release --target x86_64-pc-windows-gnu
+          cp target/x86_64-pc-windows-gnu/release/$BINARY_NAME.exe dist/$BINARY_NAME-windows-x64.exe
+
+      - name: Upload artifacts (Linux + Windows)
+        uses: actions/upload-artifact@v4
+        with:
+          name: binaries-linux-windows
+          path: |
+            go/builds/*
+            rust/dist/*
+
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust targets
+        run: |
+          rustup update stable
+          rustup target add \
+            aarch64-apple-darwin \
+            x86_64-apple-darwin
+
+      - name: Build Rust binaries (macOS)
         working-directory: rust
         run: |
           chmod +x build.sh
           ./build.sh
 
-#      - name: Upload artifacts
+#      - name: Upload artifacts (macOS)
 #        uses: actions/upload-artifact@v4
 #        with:
-#          name: binaries-test
-#          path: |
-#            go/builds/*
-#            rust/dist/*
+#          name: binaries-macos
+#          path: rust/dist/*
