@@ -20,3 +20,4 @@ myl() {
 source "$SCRIPT_DIR/cmds/aliases.sh"
 source "$SCRIPT_DIR/cmds/git.sh"
 source "$SCRIPT_DIR/cmds/fs.sh"
+source "$SCRIPT_DIR/cmds/check-npm.sh"
