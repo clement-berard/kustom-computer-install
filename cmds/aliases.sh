@@ -34,3 +34,4 @@ alias dpa="docker ps -a"
 
 # git aliases
 alias gfp='gf && ggl'
+alias ghs='gh stack'
