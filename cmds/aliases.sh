@@ -33,4 +33,5 @@ alias dcu="docker-compose up"
 alias dpa="docker ps -a"
 
 # git aliases
-alias gfp='gf && ggl'
+alias gfp='gf --tags --force --quiet && ggl'
+alias ghs='gh stack'
