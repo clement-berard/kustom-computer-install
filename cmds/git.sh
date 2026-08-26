@@ -72,12 +72,30 @@ git-list-orphan-branches() {
 }
 
 git-interactive-cleanup() {
+    [[ $- == *x* ]] && trap 'set -x' RETURN
+    set +x
     git fetch --prune --quiet
-    for branch in $(git for-each-ref --format='%(refname:short)' refs/heads/ | grep -v "$(git branch --show-current)"); do
-        if ! git branch -r | grep -q "origin/$branch"; then
-            printf "Delete '$branch'? [y/N]: "
-            read -r answer
-            [[ "$answer" =~ ^[Yy]$ ]] && git branch -D "$branch"
+    local current_branch
+    current_branch="$(git branch --show-current)"
+    while IFS=$'\t' read -r branch date <&3; do
+        [[ "$branch" == "$current_branch" ]] && continue
+
+        local pr_info state number status_label
+        pr_info="$(gh pr view "$branch" --json state,number --jq '"\(.state)\t\(.number)"' 2>/dev/null)"
+
+        if [[ -z "$pr_info" ]]; then
+            status_label="no PR found"
+        else
+            IFS=$'\t' read -r state number <<< "$pr_info"
+            if [[ "$state" == "OPEN" ]]; then
+                echo "Skipping '$branch': PR #$number is still open"
+                continue
+            fi
+            status_label="PR #$number $state"
         fi
-    done
+
+        printf "Delete '%s' (last commit: %s, %s)? [y/N]: " "$branch" "$date" "$status_label"
+        read -r answer
+        [[ "$answer" =~ ^[Yy]$ ]] && git branch -D "$branch"
+    done 3< <(git for-each-ref --sort=committerdate --format='%(refname:short)%09%(committerdate:short)' refs/heads/)
 }
