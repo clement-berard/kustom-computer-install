@@ -1,0 +1,7 @@
+alias pp="pnpm"
+alias ppx="pnpx"
+alias ppa="pnpm add"
+alias ppad="pnpm add -D"
+alias ppi="pnpm install"
+alias ppdd="pnpm dedupe"
+alias ppup="pnpm update -Lir"
