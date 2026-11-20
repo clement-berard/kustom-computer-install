@@ -17,7 +17,7 @@ myl() {
     llm -m mlx-community/Phi-3-mini-4k-instruct-4bit "$prompt" 2>/dev/null
 }
 
-source "$SCRIPT_DIR/cmds/aliases.sh"
+for f in "$SCRIPT_DIR"/cmds/aliases/*.sh; do source "$f"; done
 source "$SCRIPT_DIR/cmds/git.sh"
 source "$SCRIPT_DIR/cmds/fs.sh"
 source "$SCRIPT_DIR/cmds/check-npm.sh"
