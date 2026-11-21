@@ -1,0 +1,13 @@
+# zsh entrypoint, interactive shells: only what is specific to zsh. KC_DIR comes from zshenv.
+
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+plugins=(git zsh-autosuggestions)
+source "$ZSH/oh-my-zsh.sh"
+
+# Remove duplicate PATH entries (zsh only).
+typeset -U path PATH
+
+source "$KC_DIR/.bash_custom.sh"
+
+source "$KC_DIR/zsh/completions.zsh"
