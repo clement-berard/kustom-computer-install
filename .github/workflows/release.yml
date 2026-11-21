@@ -16,17 +16,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.25'
-
-      - name: Build Go binaries
-        working-directory: go
-        run: |
-          chmod +x build.sh
-          ./build.sh
-
       - name: Install cross-compilation tools
         run: |
           sudo apt-get update -q
@@ -47,9 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: binaries-linux-windows
-          path: |
-            go/builds/*
-            rust/dist/*
+          path: rust/dist/*
 
   build-macos:
     runs-on: macos-latest

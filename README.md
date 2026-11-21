@@ -30,7 +30,7 @@ Settings from the old config are not migrated: copy them over from the `.pre-kc`
 | `ghostty/` | Ghostty config and shader |
 | `cmd-index.md` | Command cheat sheet (`hme`) |
 | `install.sh` | Machine setup: tools, oh-my-zsh, symlinks, `kc-cli` |
-| `go/`, `rust/` | Custom CLIs |
+| `rust/` | `kc` CLI (`kc fs rm-nm`, `kc tool-versions`), binary downloaded to `bin/` |
 
 Switching shell: add an entrypoint that sets `KC_DIR` (repo root) and sources `.bash_custom.sh`, like `zsh/zshrc`.
 

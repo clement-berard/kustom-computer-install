@@ -58,12 +58,12 @@ link "$KC_DIR/zsh/zprofile" "$HOME/.zprofile"
 link "$KC_DIR/ghostty/config.ghostty" "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"
 link "$KC_DIR/ghostty/shaders/shader.glsl" "$HOME/.config/ghostty/shaders/shader.glsl"
 
-# 4. kc-cli binary
-GO_BIN_DIR="$KC_DIR/go_bin"
-mkdir -p "$GO_BIN_DIR"
+# 4. kc-cli binary (Rust, built by the Release workflow)
+BIN_DIR="$KC_DIR/bin"
+mkdir -p "$BIN_DIR"
 echo "Downloading kc-cli..."
-curl -fL "https://github.com/clement-berard/kustom-computer-install/releases/latest/download/main_darwin_arm64" \
-  -o "$GO_BIN_DIR/main_darwin_arm64"
-chmod +x "$GO_BIN_DIR/main_darwin_arm64"
+curl -fL "https://github.com/clement-berard/kustom-computer-install/releases/latest/download/kc-cli-macos-arm64" \
+  -o "$BIN_DIR/kc-cli"
+chmod +x "$BIN_DIR/kc-cli"
 
 echo "Done. Create ~/.config/shell/secrets.sh from secrets.example.sh, then open a new terminal."
