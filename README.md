@@ -9,7 +9,14 @@ git clone <repo> && cd keload-computer
 ./install.sh
 ```
 
-`install.sh` symlinks `~` to this repo: `~/.zshrc`, `~/.zshenv`, `~/.zprofile`, the Ghostty config and its shader. An existing file is kept next to the link as `<name>.pre-kc`. Safe to run again.
+`install.sh` sets up a machine, in four steps:
+
+1. Homebrew and packages
+2. oh-my-zsh and the autosuggestions plugin (your `~/.zshrc` is kept)
+3. Symlinks from `~` to this repo: `~/.zshrc`, `~/.zshenv`, `~/.zprofile`, the Ghostty config and its shader
+4. The `kc-cli` binary
+
+An existing file is kept next to its link as `<name>.pre-kc`. Safe to run again.
 
 Settings from the old config are not migrated: copy them over from the `.pre-kc` files.
 
@@ -22,7 +29,7 @@ Settings from the old config are not migrated: copy them over from the `.pre-kc`
 | `zsh/` | zsh-specific only (oh-my-zsh, plugins, completions) |
 | `ghostty/` | Ghostty config and shader |
 | `cmd-index.md` | Command cheat sheet (`hme`) |
-| `init.sh` | Installs tools (Homebrew, oh-my-zsh, packages) |
+| `install.sh` | Machine setup: tools, oh-my-zsh, symlinks, `kc-cli` |
 | `go/`, `rust/` | Custom CLIs |
 
 Switching shell: add an entrypoint that sets `KC_DIR` (repo root) and sources `.bash_custom.sh`, like `zsh/zshrc`.
