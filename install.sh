@@ -15,11 +15,17 @@ fi
 echo "Updating Homebrew..."
 brew update
 
-programs=(zsh btop bat eza n glow ncdu fd gum witr gh)
+programs=(zsh btop bat eza fnm glow ncdu fd gum witr gh)
 for program in "${programs[@]}"; do
   echo "Installing $program..."
   brew install "$program"
 done
+
+# Node: fnm manages versions, 24 for now
+if ! fnm list | grep -q "v24"; then
+  fnm install 24
+  fnm default 24
+fi
 
 # 2. oh-my-zsh and plugins (KEEP_ZSHRC: the installer must not replace ~/.zshrc)
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
