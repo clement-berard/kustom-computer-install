@@ -1,0 +1,2 @@
+# zsh entrypoint, login shells. Loads the portable login setup.
+source "$KC_DIR/cmds/profile.sh"

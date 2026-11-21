@@ -1,0 +1,38 @@
+theme = Github Dark
+custom-shader = ~/.config/ghostty/shaders/shader.glsl
+font-size = 15
+cursor-style = bar
+cursor-style-blink = false
+cursor-color = #ffd400
+cursor-text = #000000
+
+# Font
+font-family = Menlo
+font-feature = -calt
+adjust-cell-height = 10%
+
+# Readability
+minimum-contrast = 4.5
+bold-color = bright
+
+# Selection
+selection-background = #3d4452
+selection-foreground = cell-foreground
+
+# Window
+background-opacity = 1
+window-padding-x = 8
+window-padding-y = 6
+window-padding-balance = true
+macos-titlebar-style = tabs
+
+# Mouse and copy
+mouse-hide-while-typing = true
+scrollback-limit = 100000000
+
+# Panes
+unfocused-split-opacity = 0.7
+split-divider-color = #30363d
+
+# Shell
+shell-integration-features = no-cursor

@@ -1,0 +1,3 @@
+# zsh entrypoint, every invocation. Defines the repo root, then loads the portable env.
+export KC_DIR="${${(%):-%N}:A:h:h}"
+source "$KC_DIR/cmds/env.sh"

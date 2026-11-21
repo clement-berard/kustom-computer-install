@@ -7,5 +7,5 @@ kc() {
         return 1
     fi
 
-    "$KC_ROOT/go_bin/main_darwin_arm64" "$@"
+    "$KC_ROOT/bin/kc-cli" "$@"
 }

@@ -1,0 +1,22 @@
+# zsh entrypoint, interactive shells: only what is specific to zsh. KC_DIR comes from zshenv.
+
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+plugins=(git zsh-autosuggestions)
+source "$ZSH/oh-my-zsh.sh"
+
+# Remove duplicate PATH entries (zsh only).
+typeset -U path PATH
+
+source "$KC_DIR/.bash_custom.sh"
+
+# fnm: Node version manager, switches version from .node-version / .nvmrc on cd (not from package.json engines).
+command -v fnm >/dev/null && eval "$(fnm env --use-on-cd --resolve-engines=false --shell zsh)"
+
+# JetBrains terminals prepend their own Node to PATH after this file: put fnm back first.
+_kc_fnm_first() {
+  [ -n "$FNM_MULTISHELL_PATH" ] && path=("$FNM_MULTISHELL_PATH/bin" ${path:#"$FNM_MULTISHELL_PATH/bin"})
+}
+precmd_functions+=(_kc_fnm_first)
+
+source "$KC_DIR/zsh/completions.zsh"
